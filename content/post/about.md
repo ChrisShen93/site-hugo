@@ -1,14 +1,9 @@
 ---
-title: "About"
+title: "随便说句话"
 author: "Chris"
 cover: "/img/cover.jpg"
-tags: ["tagA", "tagB"]
 date: 2018-07-03T14:43:24+08:00
-draft: true
+categories: ["闲笔"]
 ---
 
-Cut out summary from your post content here.
-
-<!--more-->
-
-The remaining content of your post.
+希望能一直保持好奇心。

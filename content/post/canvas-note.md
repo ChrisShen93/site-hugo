@@ -4,6 +4,7 @@ author: "ChrisShen93"
 cover: "/img/cover.jpg"
 tags: ["note", "canvas"]
 date: 2018-07-14T08:58:12+08:00
+categories: ["学习笔记"]
 ---
 
 # Canvas Tutorial
@@ -42,7 +43,7 @@ id 属性是用来方便标识、获取 canvas 画布的。canvas 也和常规�
 <canvas id="tutorial" width="150" height="150">
   您当前的浏览器不支持 canvas
   </canvas>
-  ```
+```
 
   Canvas 标签中的内容将会在不支持 canvas 的浏览器中被渲染。
 

@@ -144,7 +144,7 @@ copyright = "ChrisShen93"            # default: author.name ↓        # 默认�
     alipay = "/img/alipay-qr-code.jpg"           # 支付宝二维码
 
   [params.social]                                         # 社交链接
-    a-email = "chrisshen93@gmail.com"
+    a-email = "mailto:chrisshen93@gmail.com"
     b-stack-overflow = "https://stackoverflow.com/users/6319118/chrisshen93"
     # c-twitter = "http://localhost:1313"
     # d-facebook = "http://localhost:1313"

@@ -139,24 +139,24 @@ copyright = "ChrisShen93"            # default: author.name ↓        # 默认�
     pagePV = true
 
   [params.reward]                                         # 文章打赏
-    enable = false
-    wechat = "/path/to/your/wechat-qr-code.png"           # 微信二维码
-    alipay = "/path/to/your/alipay-qr-code.png"           # 支付宝二维码
+    enable = true
+    wechat = "/img/wechat-pay-qr.jpg"           # 微信二维码
+    alipay = "/img/alipay-qr-code.jpg"           # 支付宝二维码
 
   [params.social]                                         # 社交链接
-    a-email = "mailto:your@email.com"
-    b-stack-overflow = "http://localhost:1313"
-    c-twitter = "http://localhost:1313"
-    d-facebook = "http://localhost:1313"
-    e-linkedin = "http://localhost:1313"
-    f-google = "http://localhost:1313"
-    g-github = "http://localhost:1313"
-    h-weibo = "http://localhost:1313"
-    i-zhihu = "http://localhost:1313"
-    j-douban = "http://localhost:1313"
-    k-pocket = "http://localhost:1313"
-    l-tumblr = "http://localhost:1313"
-    m-instagram = "http://localhost:1313"
+    a-email = "chrisshen93@gmail.com"
+    b-stack-overflow = "https://stackoverflow.com/users/6319118/chrisshen93"
+    # c-twitter = "http://localhost:1313"
+    # d-facebook = "http://localhost:1313"
+    # e-linkedin = "https://www.linkedin.com/in/%E6%B8%8A%E6%B5%B7-%E6%B2%88-999217118/"
+    f-google = "https://plus.google.com/u/0/112506768534588906017"
+    g-github = "https://github.com/ChrisShen93"
+    h-weibo = "https://weibo.com/1932353950"
+    i-zhihu = "https://www.zhihu.com/people/chrisshen93/activities"
+    # j-douban = "http://localhost:1313"
+    # k-pocket = "http://localhost:1313"
+    # l-tumblr = "http://localhost:1313"
+    # m-instagram = "http://localhost:1313"
 
 # 将下面这段配置取消注释可以使 hugo 生成 .md 文件
 # Uncomment these options to make hugo output .md files.

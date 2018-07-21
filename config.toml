@@ -10,7 +10,7 @@ publishDir = "ChrisShen93.github.io"
 preserveTaxonomyNames = true
 hasCJKLanguage = true     # has chinese/japanese/korean ? # 自动检测是否包含 中文\日文\韩文
 paginate = 5                                              # 首页每页显示的文章数
-disqusShortname = ""      # disqus_shortname
+disqusShortname = "chrisshen93-blog"      # disqus_shortname
 googleAnalytics = ""      # UA-XXXXXXXX-X
 copyright = "ChrisShen93"            # default: author.name ↓        # 默认为下面配置的author.name ↓
 
@@ -81,9 +81,9 @@ copyright = "ChrisShen93"            # default: author.name ↓        # 默认�
 
   changyanAppid = ""        # Changyan app id             # 畅言
   changyanAppkey = ""       # Changyan app key
-  livereUID = ""            # LiveRe UID                  # 来必力
+#  livereUID = "MTAyMC8zODI0NS8xNDc3Mw"            # LiveRe UID                  # 来必力
   baidu_push = false        # baidu push                  # 百度
-  baidu_analytics = ""      # Baidu Analytics
+  baidu_analytics = "084d6181067176b7bf84dac47d04f1c6"      # Baidu Analytics
   baidu_verification = ""   # Baidu Verification
   google_verification = ""  # Google_Verification         # 谷歌
 
@@ -119,10 +119,10 @@ copyright = "ChrisShen93"            # default: author.name ↓        # 默认�
     clientSecret = ""       # Your client secret
 
   [params.gitalk]           # Gitalk is a comment system based on GitHub issues. see https://github.com/gitalk/gitalk
-    owner = ""              # Your GitHub ID
-    repo = ""               # The repo to store comments
-    clientId = ""           # Your client ID
-    clientSecret = ""       # Your client secret
+    owner = "ChrisShen93"              # Your GitHub ID
+    repo = "site-hugo"               # The repo to store comments
+    clientId = "f341468b87f1db91a623"           # Your client ID
+    clientSecret = "fe4d5bed8858412750ebfe64cdabe3c67d53ca94"       # Your client secret
 
   [params.flowchartDiagrams]# see https://blog.olowolo.com/example-site/post/js-flowchart-diagrams/
     enable = false
@@ -133,7 +133,7 @@ copyright = "ChrisShen93"            # default: author.name ↓        # 默认�
     options = ""            # default: "{theme: 'simple'}"
 
   [params.busuanzi]         # count web traffic by busuanzi                             # 是否使用不蒜子统计站点访问量
-    enable = false
+    enable = true
     siteUV = true
     sitePV = true
     pagePV = true

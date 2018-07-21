@@ -23,10 +23,6 @@ categories: ["学习笔记"]
 
 其中，xmlns必不可少。SVG是XML的一种方言，其命名空间由xmlns指定。
 
----
-
----
-
 ## 2. 理解 viewport，viewBox，preserveAspectRatio
 
 ### viewport
@@ -119,3 +115,382 @@ preserveAspectRatio 值的第二部分可以如下取值：
 | slice | 保持纵横比同时比例小的方向放大填满 viewport |
 | none  | 扭曲纵横比充分适应 viewport                 |
 
+## 3. 基本形状示例
+
+<svg width="200" height="250" version="1.1" xmlns="http://www.w3.org/2000/svg"> <rect x="10" y="10" width="30" height="30" stroke="black" fill="transparent" stroke-width="5"/> <rect x="60" y="10" rx="10" ry="10" width="30" height="30" stroke="black" fill="transparent" stroke-width="5"/> <circle cx="25" cy="75" r="20" stroke="red" fill="transparent" stroke-width="5"/> <ellipse cx="75" cy="75" rx="20" ry="5" stroke="red" fill="transparent" stroke-width="5"/> <line x1="10" x2="50" y1="110" y2="150" stroke="orange" fill="transparent" stroke-width="5"/> <polyline points="60 110 65 120 70 115 75 130 80 125 85 140 90 135 95 150 100 145" stroke="orange" fill="transparent" stroke-width="5"/> <polygon points="50 160 55 180 70 180 60 190 65 205 50 195 35 205 40 190 30 180 45 180" stroke="green" fill="transparent" stroke-width="5"/> <path d="M20,230 Q40,205 50,230 T90,230" fill="none" stroke="blue" stroke-width="5"/> </svg>
+
+上述图形对应代码：
+
+```xml
+<?xml version="1.0" standalone="no"?>
+<svg width="200" height="250" version="1.1" xmlns="http://www.w3.org/2000/svg">
+
+  <rect x="10" y="10" width="30" height="30" stroke="black" fill="transparent" stroke-width="5"/>
+  <rect x="60" y="10" rx="10" ry="10" width="30" height="30" stroke="black" fill="transparent" stroke-width="5"/>
+
+  <circle cx="25" cy="75" r="20" stroke="red" fill="transparent" stroke-width="5"/>
+  <ellipse cx="75" cy="75" rx="20" ry="5" stroke="red" fill="transparent" stroke-width="5"/>
+
+  <line x1="10" x2="50" y1="110" y2="150" stroke="orange" fill="transparent" stroke-width="5"/>
+  <polyline points="60 110 65 120 70 115 75 130 80 125 85 140 90 135 95 150 100 145"
+      stroke="orange" fill="transparent" stroke-width="5"/>
+
+  <polygon points="50 160 55 180 70 180 60 190 65 205 50 195 35 205 40 190 30 180 45 180"
+      stroke="green" fill="transparent" stroke-width="5"/>
+
+  <path d="M20,230 Q40,205 50,230 T90,230" fill="none" stroke="blue" stroke-width="5"/>
+</svg>
+```
+
+## 4. 路径
+
+*path* 是 SVG 中最强大也是最常见的形状。开发者可以通过 path 绘制所有的基本形状、贝塞尔曲线等。
+
+在绘制平滑线条（如曲线）时，path 几乎是唯一的选择。虽然 polyline 也可以实现类似的效果，但是需要设置大量的点，且一旦放大，就能看到明显的离散效果。
+
+path 的形状通过属性 *d* 来定义，其值是一个 **命令 + 参数** 的序列。
+
+### 直线命令
+
+#### M/m 命令
+
+M/m 命令表示 *move to*，大小写的区别是，大写 M 为 **绝对定位**，小写 m 为 **相对定位**。
+
+M/m 命令并不会画线，仅仅是移动画笔，因此一半出现在路径的 **开始处**，来指明从何处开始画。
+
+```
+M x y
+m dx dy
+```
+
+#### L/l 命令
+
+L/l 命令是最简单的画直线命令。与 M/m 相似，大写 L 为 **绝对定位**，小写 l 为 **相对定位**。
+
+L/l 命令的作用是在 *当前位置* 和 *新的位置*（即L/l前画笔所在坐标）直线画一条线段。
+
+```
+L x y
+l dx dy
+```
+
+#### H/h 命令 和 V/v 命令
+
+H/h 命令用来画平行线，V/v 命令用来画垂直线。
+
+```
+H x
+
+h dx
+
+V y
+
+v dy
+```
+
+#### Z/z 命令
+
+Z/z 命令是一个快捷命令，用来从当前点向起点绘制一条线条，来闭合图形。
+
+Z/z 命令不区分大小写，其效果是相通的。
+
+---
+
+### 曲线命令
+
+#### 贝塞尔曲线
+
+SVG 中有两个命令来绘制贝塞尔曲线：Q/q 命令 和 C/c 命令，分别对应 二次贝塞尔曲线 和 三次贝塞尔曲线。
+
+三次贝塞尔曲线：
+
+格式：(x1, y1) (x2, y2) 分别为两个控制点，(x, y) 为曲线终点。
+
+```
+C x1 y1, x2 y2, x y
+c dx1 dy1, dx2 dy2, dx dy
+```
+
+<svg width="190px" height="160px" version="1.1" xmlns="http://www.w3.org/2000/svg"> <path d="M10 10 C 20 20, 40 20, 50 10" stroke="black" fill="transparent"/> <circle cx="10" cy="10" r="2" fill="red"/> <circle cx="20" cy="20" r="2" fill="red"/> <path d="M10 10, L20 20" stroke="red"/> <circle cx="40" cy="20" r="2" fill="red"/> <circle cx="50" cy="10" r="2" fill="red"/> <path d="M40 20, L50 10" stroke="red"/> <path d="M70 10 C 70 20, 120 20, 120 10" stroke="black" fill="transparent"/> <circle cx="70" cy="10" r="2" fill="red"/> <circle cx="70" cy="20" r="2" fill="red"/> <path d="M70 10, L70 20" stroke="red"/> <circle cx="120" cy="20" r="2" fill="red"/> <circle cx="120" cy="10" r="2" fill="red"/> <path d="M120 20, L120 10" stroke="red"/> <path d="M130 10 C 120 20, 180 20, 170 10" stroke="black" fill="transparent"/> <circle cx="130" cy="10" r="2" fill="red"/> <circle cx="120" cy="20" r="2" fill="red"/> <path d="M130 10, L120 20" stroke="red"/> <circle cx="180" cy="20" r="2" fill="red"/> <circle cx="170" cy="10" r="2" fill="red"/> <path d="M180 20, L170 10" stroke="red"/> <path d="M10 60 C 20 80, 40 80, 50 60" stroke="black" fill="transparent"/> <circle cx="10" cy="60" r="2" fill="red"/> <circle cx="20" cy="80" r="2" fill="red"/> <path d="M10 60, L20 80" stroke="red"/> <circle cx="40" cy="80" r="2" fill="red"/> <circle cx="50" cy="60" r="2" fill="red"/> <path d="M40 80, L50 60" stroke="red"/> <path d="M70 60 C 70 80, 110 80, 110 60" stroke="black" fill="transparent"/> <circle cx="70" cy="60" r="2" fill="red"/> <circle cx="70" cy="80" r="2" fill="red"/> <path d="M70 60, L70 80" stroke="red"/> <circle cx="110" cy="80" r="2" fill="red"/> <circle cx="110" cy="60" r="2" fill="red"/> <path d="M110 80, L110 60" stroke="red"/> <path d="M130 60 C 120 80, 180 80, 170 60" stroke="black" fill="transparent"/> <circle cx="130" cy="60" r="2" fill="red"/> <circle cx="120" cy="80" r="2" fill="red"/> <path d="M130 60, L120 80" stroke="red"/> <circle cx="180" cy="80" r="2" fill="red"/> <circle cx="170" cy="60" r="2" fill="red"/> <path d="M180 80, L170 60" stroke="red"/> <path d="M10 110 C 20 140, 40 140, 50 110" stroke="black" fill="transparent"/> <circle cx="10" cy="110" r="2" fill="red"/> <circle cx="20" cy="140" r="2" fill="red"/> <path d="M10 110, L20 140" stroke="red"/> <circle cx="40" cy="140" r="2" fill="red"/> <circle cx="50" cy="110" r="2" fill="red"/> <path d="M40 140, L50 110" stroke="red"/> <path d="M70 110 C 70 140, 110 140, 110 110" stroke="black" fill="transparent"/> <circle cx="70" cy="110" r="2" fill="red"/> <circle cx="70" cy="140" r="2" fill="red"/> <path d="M70 110, L70 140" stroke="red"/> <circle cx="110" cy="140" r="2" fill="red"/> <circle cx="110" cy="110" r="2" fill="red"/> <path d="M110 140, L110 110" stroke="red"/> <path d="M130 110 C 120 140, 180 140, 170 110" stroke="black" fill="transparent"/> <circle cx="130" cy="110" r="2" fill="red"/> <circle cx="120" cy="140" r="2" fill="red"/> <path d="M130 110, L120 140" stroke="red"/> <circle cx="180" cy="140" r="2" fill="red"/> <circle cx="170" cy="110" r="2" fill="red"/> <path d="M180 140, L170 110" stroke="red"/> </svg>
+
+```xml
+<svg width="190px" height="160px" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M10 10 C 20 20, 40 20, 50 10" stroke="black" fill="transparent"/>
+  <circle cx="10" cy="10" r="2" fill="red"/>
+  <circle cx="20" cy="20" r="2" fill="red"/>
+  <path d="M10 10, L20 20" stroke="red"/>
+  <circle cx="40" cy="20" r="2" fill="red"/>
+  <circle cx="50" cy="10" r="2" fill="red"/>
+  <path d="M40 20, L50 10" stroke="red"/>
+  <path d="M70 10 C 70 20, 120 20, 120 10" stroke="black" fill="transparent"/>
+  <circle cx="70" cy="10" r="2" fill="red"/>
+  <circle cx="70" cy="20" r="2" fill="red"/>
+  <path d="M70 10, L70 20" stroke="red"/>
+  <circle cx="120" cy="20" r="2" fill="red"/>
+  <circle cx="120" cy="10" r="2" fill="red"/>
+  <path d="M120 20, L120 10" stroke="red"/>
+  <path d="M130 10 C 120 20, 180 20, 170 10" stroke="black" fill="transparent"/>
+  <circle cx="130" cy="10" r="2" fill="red"/>
+  <circle cx="120" cy="20" r="2" fill="red"/>
+  <path d="M130 10, L120 20" stroke="red"/>
+  <circle cx="180" cy="20" r="2" fill="red"/>
+  <circle cx="170" cy="10" r="2" fill="red"/>
+  <path d="M180 20, L170 10" stroke="red"/>
+  <path d="M10 60 C 20 80, 40 80, 50 60" stroke="black" fill="transparent"/>
+  <circle cx="10" cy="60" r="2" fill="red"/>
+  <circle cx="20" cy="80" r="2" fill="red"/>
+  <path d="M10 60, L20 80" stroke="red"/>
+  <circle cx="40" cy="80" r="2" fill="red"/>
+  <circle cx="50" cy="60" r="2" fill="red"/>
+  <path d="M40 80, L50 60" stroke="red"/>
+  <path d="M70 60 C 70 80, 110 80, 110 60" stroke="black" fill="transparent"/>
+  <circle cx="70" cy="60" r="2" fill="red"/>
+  <circle cx="70" cy="80" r="2" fill="red"/>
+  <path d="M70 60, L70 80" stroke="red"/>
+  <circle cx="110" cy="80" r="2" fill="red"/>
+  <circle cx="110" cy="60" r="2" fill="red"/>
+  <path d="M110 80, L110 60" stroke="red"/>
+  <path d="M130 60 C 120 80, 180 80, 170 60" stroke="black" fill="transparent"/>
+  <circle cx="130" cy="60" r="2" fill="red"/>
+  <circle cx="120" cy="80" r="2" fill="red"/>
+  <path d="M130 60, L120 80" stroke="red"/>
+  <circle cx="180" cy="80" r="2" fill="red"/>
+  <circle cx="170" cy="60" r="2" fill="red"/>
+  <path d="M180 80, L170 60" stroke="red"/>
+  <path d="M10 110 C 20 140, 40 140, 50 110" stroke="black" fill="transparent"/>
+  <circle cx="10" cy="110" r="2" fill="red"/>
+  <circle cx="20" cy="140" r="2" fill="red"/>
+  <path d="M10 110, L20 140" stroke="red"/>
+  <circle cx="40" cy="140" r="2" fill="red"/>
+  <circle cx="50" cy="110" r="2" fill="red"/>
+  <path d="M40 140, L50 110" stroke="red"/>
+  <path d="M70 110 C 70 140, 110 140, 110 110" stroke="black" fill="transparent"/>
+  <circle cx="70" cy="110" r="2" fill="red"/>
+  <circle cx="70" cy="140" r="2" fill="red"/>
+  <path d="M70 110, L70 140" stroke="red"/>
+  <circle cx="110" cy="140" r="2" fill="red"/>
+  <circle cx="110" cy="110" r="2" fill="red"/>
+  <path d="M110 140, L110 110" stroke="red"/>
+  <path d="M130 110 C 120 140, 180 140, 170 110" stroke="black" fill="transparent"/>
+  <circle cx="130" cy="110" r="2" fill="red"/>
+  <circle cx="120" cy="140" r="2" fill="red"/>
+  <path d="M130 110, L120 140" stroke="red"/>
+  <circle cx="180" cy="140" r="2" fill="red"/>
+  <circle cx="170" cy="110" r="2" fill="red"/>
+  <path d="M180 140, L170 110" stroke="red"/>
+</svg>
+```
+
+多条三次贝塞尔曲线连起来，可以绘制为一条很长的平滑曲线。对于三次贝塞尔曲线，如果一个点两侧的控制点对称（斜率一致），则可以使用 **S/s** 命令简写。
+
+格式：
+
+```
+S x2 y2, x y
+s dx2 dy2, dx dy
+```
+
+若 S/s 命令前有 C/c 命令或另一个 S/s 命令，则其第一个控制点会被置为前一个控制点的对称点；若 S/s 命令单独使用，则其两个控制点会被认为是同一个点。
+
+<svg  width="190px" height="160px" version="1.1" xmlns="http://www.w3.org/2000/svg"> <path d="M10 80 C 40 10, 65 10, 95 80 S 150 150, 180 80" stroke="black" fill="transparent"/> <circle cx="10" cy="80" r="2" fill="red"/> <circle cx="40" cy="10" r="2" fill="red"/> <path d="M10 80, L40 10" stroke="red"/> <circle cx="65" cy="10" r="2" fill="red"/> <circle cx="95" cy="80" r="2" fill="red"/> <path d="M65 10, L95 80" stroke="red"/>   <circle cx="95" cy="80" r="2" fill="red"/> <circle cx="125" cy="150" r="2" fill="blue"/> <path d="M95 80, L125 150" stroke="blue"/> <circle cx="150" cy="150" r="2" fill="red"/> <circle cx="180" cy="80" r="2" fill="red"/> <path d="M150 150, L180 80" stroke="red"/> </svg>
+
+```xml
+<svg width="190px" height="160px" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M10 80 C 40 10, 65 10, 95 80 S 150 150, 180 80" stroke="black" fill="transparent"/>
+  <circle cx="10" cy="80" r="2" fill="red"/>
+  <circle cx="40" cy="10" r="2" fill="red"/>
+  <path d="M10 80, L40 10" stroke="red"/>
+  <circle cx="65" cy="10" r="2" fill="red"/>
+  <circle cx="95" cy="80" r="2" fill="red"/>
+  <path d="M65 10, L95 80" stroke="red"/>
+  <circle cx="95" cy="80" r="2" fill="red"/>
+  <circle cx="125" cy="150" r="2" fill="blue"/>
+  <path d="M95 80, L125 150" stroke="blue"/>
+  <circle cx="150" cy="150" r="2" fill="red"/>
+  <circle cx="180" cy="80" r="2" fill="red"/>
+  <path d="M150 150, L180 80" stroke="red"/>
+</svg>
+```
+
+---
+
+二次贝塞尔曲线：
+
+格式：
+
+```
+Q x1 y1, x y
+q dx1 dy1, dx dy
+```
+
+<svg width="190px" height="160px" version="1.1" xmlns="http://www.w3.org/2000/svg""> <path d="M10 80 Q 95 10 180 80" stroke="black" fill="transparent"/> <circle cx="10" cy="80" r="2" fill="red"/> <circle cx="95" cy="10" r="2" fill="red"/> <circle cx="180" cy="80" r="2" fill="red"/> <path d="M10 80, L95 10" stroke="red"/> <path d="M180 80, L95 10" stroke="red"/> </svg>
+
+```xml
+<svg width="190px" height="160px" version="1.1" xmlns="http://www.w3.org/2000/svg"">
+  <path d="M10 80 Q 95 10 180 80" stroke="black" fill="transparent"/>
+  <circle cx="10" cy="80" r="2" fill="red"/>
+  <circle cx="95" cy="10" r="2" fill="red"/>
+  <circle cx="180" cy="80" r="2" fill="red"/>
+  <path d="M10 80, L95 10" stroke="red"/>
+  <path d="M180 80, L95 10" stroke="red"/>
+</svg>
+```
+
+与三次贝塞尔曲线类似，二次贝塞尔曲线也有个针对对称点的简写命令：**T/t**
+
+```
+T x y, x y
+t dx dy, dx dy
+```
+
+<svg width="190px" height="160px" version="1.1" xmlns="http://www.w3.org/2000/svg"> <path d="M10 80 Q 52.5 10, 95 80 T 180 80" stroke="black" fill="transparent"/> <circle cx="10" cy="80" r="2" fill="red"/> <circle cx="52.5" cy="10" r="2" fill="red"/> <path d="M10 80, L52.5 10" stroke="red"/> <circle cx="95" cy="80" r="2" fill="red"/> <path d="M52.5 10, L95 80" stroke="red"/> <circle cx="137.5" cy="150" r="2" fill="red"/> <path d="M95 80, L137.5 150" stroke="blue"/> <circle cx="180" cy="80" r="2" fill="red"/> <path d="M137.5 150, L180 80" stroke="blue"/> </svg>
+
+```xml
+<svg width="190px" height="160px" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M10 80 Q 52.5 10, 95 80 T 180 80" stroke="black" fill="transparent"/>
+  <circle cx="10" cy="80" r="2" fill="red"/>
+  <circle cx="52.5" cy="10" r="2" fill="red"/>
+  <path d="M10 80, L52.5 10" stroke="red"/>
+  <circle cx="95" cy="80" r="2" fill="red"/>
+  <path d="M52.5 10, L95 80" stroke="red"/>
+  <circle cx="137.5" cy="150" r="2" fill="red"/>
+  <path d="M95 80, L137.5 150" stroke="blue"/>
+  <circle cx="180" cy="80" r="2" fill="red"/>
+  <path d="M137.5 150, L180 80" stroke="blue"/>
+</svg>
+```
+
+#### 弧形
+
+格式：
+
+```
+A rx ry x-axis-rotation large-arc-flag sweep-flag x y
+a rx ry x-axis-rotation large-arc-flag sweep-flag dx dy
+```
+
+参数说明：
+
+| rx      | ry      | x-axis-rotation             | large-arc-flag                                               | sweep-flag                                                   | x           | y           |
+| ------- | ------- | --------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ----------- | ----------- |
+| x轴半径 | r轴半径 | 弧形的旋转状况，单位为度(°) | 角度大小。0表示小角度弧（小于180°），1表示大角度弧（大于180°） | 弧线方向。0表示从起点到终点逆时针画弧，1表示从起点到终点顺时针画弧。 | 终点x轴坐标 | 终点y轴坐标 |
+
+<svg width="320px" height="320px" version="1.1" xmlns="http://www.w3.org/2000/svg"> <path d="M10 315 L 110 215 A 30 50 0 0 1 162.55 162.45 L 172.55 152.45 A 30 50 -45 0 1 215.1 109.9 L 315 10" stroke="black" fill="green" stroke-width="2" fill-opacity="0.5"/></svg>
+
+```xml
+<svg width="320px" height="320px" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M10 315
+           L 110 215
+           A 30 50 0 0 1 162.55 162.45
+           L 172.55 152.45
+           A 30 50 -45 0 1 215.1 109.9
+           L 315 10" stroke="black" fill="green" stroke-width="2" fill-opacity="0.5"/>
+</svg>
+```
+
+在确认了rx、ry之后，对于左下方没有旋转的弧，实际上有两种画法（对角线正好经过了椭圆的中心large-arc-flag设置0或者1都一样，因此不是四种）。
+
+<svg width="320px" height="320px" version="1.1" xmlns="http://www.w3.org/2000/svg"> <path d="M10 315 L 110 215 M 162.55 162.45 L 315 10" stroke="black" stroke-width="2"/> <path d="M110 215 A 30 50 0 0 1 162.55 162.45" stroke="red" fill="transparent"></path> <path d="M110 215 A 30 50 0 0 0 162.55 162.45" stroke="blue" fill="transparent"></path> </svg>
+
+```xml
+<svg width="320px" height="320px" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M10 315
+           L 110 215
+           M 162.55 162.45
+           L 315 10"
+        stroke="black" stroke-width="2"/>
+  <path d="M110 215
+           A 30 50 0 0 1 162.55 162.45"
+        stroke="red" fill="transparent"></path>
+  <path d="M110 215
+           A 30 50 0 0 0 162.55 162.45"
+        stroke="blue" fill="transparent"></path>
+</svg>
+```
+
+下面的例子展示了完整的由 **large-arc-flag** 和 **sweep-flag** 组成的四种图形
+
+<svg width="325px" height="325px" version="1.1" xmlns="http://www.w3.org/2000/svg"> <circle cx="125" cy="80" r="45" stroke="#ddd" stroke-width="2" fill="transparent"/> <circle cx="80" cy="125" r="45" stroke="#ddd" stroke-width="2" fill="transparent"/> <path d="M80 80 A 45 45, 0, 0, 0, 125 125 L 125 80 Z" fill="green" fill-opacity="0.5"/> <text x="45" y="45">large-arc-flag=0</text> <text x="45" y="60">sweep-flag=0</text> <circle cx="275" cy="80" r="45" stroke="#ddd" stroke-width="2" fill="transparent"/> <circle cx="230" cy="125" r="45" stroke="#ddd" stroke-width="2" fill="transparent"/> <path d="M230 80 A 45 45, 0, 1, 0, 275 125 L 275 80 Z" fill="red" fill-opacity="0.5"/> <text x="195" y="45">large-arc-flag=1</text> <text x="195" y="60">sweep-flag=0</text> <circle cx="125" cy="230" r="45" stroke="#ddd" stroke-width="2" fill="transparent"/> <circle cx="80" cy="275" r="45" stroke="#ddd" stroke-width="2" fill="transparent"/> <path d="M80 230 A 45 45, 0, 0, 1, 125 275 L 125 230 Z" fill="purple" fill-opacity="0.5"/> <text x="45" y="195">large-arc-flag=0</text> <text x="45" y="210">sweep-flag=1</text> <circle cx="275" cy="230" r="45" stroke="#ddd" stroke-width="2" fill="transparent"/> <circle cx="230" cy="275" r="45" stroke="#ddd" stroke-width="2" fill="transparent"/> <path d="M230 230 A 45 45, 0, 1, 1, 275 275 L 275 230 Z" fill="blue" fill-opacity="0.5"/> <text x="195" y="195">large-arc-flag=1</text> <text x="195" y="210">sweep-flag=1</text> </svg>
+
+```xml
+<svg width="325px" height="325px" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="125"
+          cy="80"
+          r="45"
+          stroke="#ddd"
+          stroke-width="2"
+          fill="transparent"/>
+  <circle cx="80"
+          cy="125"
+          r="45"
+          stroke="#ddd"
+          stroke-width="2"
+          fill="transparent"/>
+  <path d="M80 80
+           A 45 45, 0, 0, 0, 125 125
+           L 125 80 Z"
+        fill="green"
+        fill-opacity="0.5"/>
+  <text x="45" y="45">large-arc-flag=0</text>
+  <text x="45" y="60">sweep-flag=0</text>
+  <circle cx="275"
+          cy="80"
+          r="45"
+          stroke="#ddd"
+          stroke-width="2"
+          fill="transparent"/>
+  <circle cx="230"
+          cy="125"
+          r="45"
+          stroke="#ddd"
+          stroke-width="2"
+          fill="transparent"/>
+  <path d="M230 80
+           A 45 45, 0, 1, 0, 275 125
+           L 275 80 Z"
+        fill="red"
+        fill-opacity="0.5"/>
+  <text x="195" y="45">large-arc-flag=1</text>
+  <text x="195" y="60">sweep-flag=0</text>
+  <circle cx="125"
+          cy="230"
+          r="45"
+          stroke="#ddd"
+          stroke-width="2"
+          fill="transparent"/>
+  <circle cx="80"
+          cy="275"
+          r="45"
+          stroke="#ddd"
+          stroke-width="2"
+          fill="transparent"/>
+  <path d="M80 230
+           A 45 45, 0, 0, 1, 125 275
+           L 125 230 Z"
+        fill="purple"
+        fill-opacity="0.5"/>
+  <text x="45" y="195">large-arc-flag=0</text>
+  <text x="45" y="210">sweep-flag=1</text>
+  <circle cx="275"
+          cy="230"
+          r="45"
+          stroke="#ddd"
+          stroke-width="2"
+          fill="transparent"/>
+  <circle cx="230"
+          cy="275"
+          r="45"
+          stroke="#ddd"
+          stroke-width="2"
+          fill="transparent"/>
+  <path d="M230 230
+           A 45 45, 0, 1, 1, 275 275
+           L 275 230 Z"
+        fill="blue"
+        fill-opacity="0.5"/>
+  <text x="195" y="195">large-arc-flag=1</text>
+  <text x="195" y="210">sweep-flag=1</text>
+</svg>
+```
+
+ 

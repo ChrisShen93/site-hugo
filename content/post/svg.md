@@ -493,4 +493,113 @@ a rx ry x-axis-rotation large-arc-flag sweep-flag dx dy
 </svg>
 ```
 
+## 5. 填充和边框
+
+### 上色
+
+| 属性           | 描述                   | 值                                                           |
+| -------------- | ---------------------- | ------------------------------------------------------------ |
+| fill           | 对象内部的填充色       | 颜色名（像*red*这种）、rgb值（像rgb(255,0,0)这种）、十六进制值、rgba值，等。 |
+| stroke         | 对象的线条色           | 同上                                                         |
+| fill-opacity   | 对象内部填充色的透明度 | 0～1。0为透明，1为完全不透明                                 |
+| stroke-opacity | 对象线条色的透明度     | 同上                                                         |
+
+### 描边
+
+| 属性              | 描述                                            | 值                                                           |
+| ----------------- | ----------------------------------------------- | ------------------------------------------------------------ |
+| stroke-width      | 描边的宽度                                      |                                                              |
+| stroke-linecap    | 描边终点的形状                                  | butt: 用直线结束线段<br/>square: 用直线结束线段，但是会超出实际路径。超出的宽度由stroke-width确定<br/>round: 用圆角结束线段。圆角的半径由stroke-width确定 |
+| stroke-linejoin   | 两条描边之间的连接方式                          | miter:  用方形画笔在连接处形成尖角<br/>round:  用圆角连接，实现平滑效果<br/>bevel:  连接处会形成一个斜接 |
+| stroke-dasharray  | 虚线类型应用在描边上                            |                                                              |
+| fill-rule         | 定义如何给图形重叠的区域上色                    |                                                              |
+| stroke-miterlimit | 定义什么情况下绘制或不绘制边框连接的`miter`效果 |                                                              |
+| stroke-dashoffset | 定义虚线开始的位置                              |                                                              |
+
+### 使用CSS
+
+SVG 规范，将 SVG 的属性分为 *properties* 和 *attributes*。对于 **properties**，可以使用CSS达到与内联样式相同的效果；而对于 **attributes** 则不可以。[SVG规范](https://www.w3.org/TR/SVG/propidx.html)
+
+## 6. 渐变
+
+渐变分为线性渐变和径向渐变。渐变内容 **必须** 指定一个 *id* 属性，否则文档内的其他元素就不能引用它。
+
+为了让渐变能被重复使用，渐变内容需要定义在 **&lt;defs&gt;** 标签内部，而不是定义在形状上面。
+
+### 线性渐变
+
+线性渐变沿着直线改变颜色，要插入一个线性渐变，你需要在SVG文件的 `defs元素` 内部，创建一个[&lt;linearGradient&gt;](https://developer.mozilla.org/zh-CN/docs/Web/SVG/Element/linearGradient) 节点。
+
+<svg width="120" height="240" version="1.1" xmlns="http://www.w3.org/2000/svg">  <defs>      <linearGradient id="Gradient1">        <stop class="stop1" offset="0%"/>        <stop class="stop2" offset="50%"/>        <stop class="stop3" offset="100%"/>      </linearGradient>      <linearGradient id="Gradient2" x1="0" x2="0" y1="0" y2="1">        <stop offset="0%" stop-color="red"/>        <stop offset="50%" stop-color="black" stop-opacity="0"/>        <stop offset="100%" stop-color="blue"/>      </linearGradient>      <style type="text/css"><![CDATA[        #rect1 { fill: url(#Gradient1); }        .stop1 { stop-color: red; }        .stop2 { stop-color: black; stop-opacity: 0; }        .stop3 { stop-color: blue; }      ]]></style>  </defs>   <rect id="rect1" x="10" y="10" rx="15" ry="15" width="100" height="100"/>  <rect x="10" y="120" rx="15" ry="15" width="100" height="100" fill="url(#Gradient2)"/>  </svg>
+
+<style> #rect1 { fill: url(#Gradient1); } .stop1 { stop-color: red; } .stop2 { stop-color: black; stop-opacity: 0; } .stop3 { stop-color: blue; } </style>
+
+```xml
+<svg width="120" height="240" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+      <linearGradient id="Gradient1">
+        <stop class="stop1" offset="0%"/>
+        <stop class="stop2" offset="50%"/>
+        <stop class="stop3" offset="100%"/>
+      </linearGradient>
+      <linearGradient id="Gradient2" x1="0" x2="0" y1="0" y2="1">
+        <stop offset="0%" stop-color="red"/>
+        <stop offset="50%" stop-color="black" stop-opacity="0"/>
+        <stop offset="100%" stop-color="blue"/>
+      </linearGradient>
+      <style type="text/css"><![CDATA[
+        #rect1 { fill: url(#Gradient1); }
+        .stop1 { stop-color: red; }
+        .stop2 { stop-color: black; stop-opacity: 0; }
+        .stop3 { stop-color: blue; }
+      ]]></style>
+  </defs>
+  <rect id="rect1" x="10" y="10" rx="15" ry="15" width="100" height="100"/>
+  <rect x="10" y="120" rx="15" ry="15" width="100" height="100" fill="url(#Gradient2)"/>
+</svg>
+```
+
+> <![CDATA[]]> 中的内容不会被 XML 解析器解析。
+
+&lt;linearGradient&gt; 元素还需要一些其他的属性值，它们指定了渐变的大小和出现范围。渐变的方向可以通过两个点来控制，它们分别是属性x1、x2、y1和y2，这些属性定义了渐变路线走向。渐变色默认是水平方向的，但是通过修改这些属性，就可以旋转该方向。
+
+### 径向渐变
+
+径向渐变与线性渐变相似，只是它是从一个点开始发散绘制渐变。创建径向渐变需要在文档的`defs元素`中添加一个[<radialGradient>](https://developer.mozilla.org/zh-CN/docs/Web/SVG/Element/radialGradient)元素。
+
+<svg width="120" height="240" version="1.1" xmlns="http://www.w3.org/2000/svg">  <defs>      <radialGradient id="RadialGradient1">        <stop offset="0%" stop-color="red"/>        <stop offset="100%" stop-color="blue"/>      </radialGradient>      <radialGradient id="RadialGradient2" cx="0.25" cy="0.25" r="0.25">        <stop offset="0%" stop-color="red"/>        <stop offset="100%" stop-color="blue"/>      </radialGradient>  </defs>   <rect x="10" y="10" rx="15" ry="15" width="100" height="100" fill="url(#RadialGradient1)"/>   <rect x="10" y="120" rx="15" ry="15" width="100" height="100" fill="url(#RadialGradient2)"/>   </svg>
+
+```xml
+<svg width="120" height="240" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+      <radialGradient id="RadialGradient1">
+        <stop offset="0%" stop-color="red"/>
+        <stop offset="100%" stop-color="blue"/>
+      </radialGradient>
+      <radialGradient id="RadialGradient2" cx="0.25" cy="0.25" r="0.25">
+        <stop offset="0%" stop-color="red"/>
+        <stop offset="100%" stop-color="blue"/>
+      </radialGradient>
+  </defs>
  
+  <rect x="10" y="10" rx="15" ry="15" width="100" height="100"
+        fill="url(#RadialGradient1)"/> 
+  <rect x="10" y="120" rx="15" ry="15" width="100" height="100"
+        fill="url(#RadialGradient2)"/> 
+</svg>
+```
+
+&lt;radialGradient&gt; 的几个特殊属性：
+
+| 属性         | 描述                         | 值                      |
+| ------------ | ---------------------------- | ----------------------- |
+| cx           | 渐变结束所围绕的圆环的中心点 | 数字或百分比，默认为50% |
+| cy           | 渐变结束所围绕的圆环的中心点 | 数字或百分比，默认为50% |
+| r            | 渐变结束所围绕的圆环的半径   | 默认为50%               |
+| fx           | 渐变的焦点                   | 默认为0%                |
+| fy           | 渐变的焦点                   | 默认为0%                |
+| spreadMethod | 用于描述渐变过程             | pad/refleact/repeat     |
+
+
+
+关于渐变，建议了解 **[gradientUnits](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/gradientUnits)**，其值有两个 *userSpaceOnUse* 和 *objectBoundingBox* (默认)。

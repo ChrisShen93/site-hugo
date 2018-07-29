@@ -1,10 +1,12 @@
 ---
-title: "Canvas Note"
+title: "Canvas 的个人学习笔记"
 author: "ChrisShen93"
 cover: "/img/cover.jpg"
 tags: ["note", "canvas"]
 date: 2018-07-14T08:58:12+08:00
 categories: ["学习笔记"]
+description: "Canvas 的个人学习笔记"
+keywords: ["canvas"]
 ---
 
 # Canvas Tutorial

@@ -1,10 +1,12 @@
 ---
-title: "SVG"
+title: "SVG 入门教程"
 author: "ChrisShen93"
 date: 2018-07-18T15:43:48+08:00
 cover: "/img/cover.jpg"
 tags: ["note", "svg"]
 categories: ["学习笔记"]
+description: "SVG 的个人入门教程"
+keywords: ["SVG"]
 ---
 
 # SVG 学习笔记

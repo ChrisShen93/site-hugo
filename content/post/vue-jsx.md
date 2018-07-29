@@ -1,7 +1,9 @@
 ---
-title: "JSX in Vue"
+title: "在 Vue 中使用 JSX 的一些注意事项"
 date: 2018-07-25T08:57:10+08:00
 tag: ["Vue", "JSX"]
+description: "在 Vue 中使用 JSX 的一些注意事项"
+keywords: ["Vue", "JSX"]
 ---
 
 ## 使用 JSX

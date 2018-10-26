@@ -112,7 +112,7 @@ export default {
 export default {
   render () {
     return (
-      <my-components scopeSlots={
+      <my-components scopedSlots={
         {
           default: function (scope) {
             return [<div>{ scope.text }</div>, <div>This is the real body</div>]
